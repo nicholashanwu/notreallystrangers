@@ -1,0 +1,67 @@
+package com.example.notreallystrangers;
+
+import android.content.Context;
+import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import com.example.notreallystrangers.model.Question;
+
+import java.util.List;
+
+public class SwipeStackAdapter extends BaseAdapter {
+
+	private List<Question> mData;
+	private Context context;
+
+	public SwipeStackAdapter(List<Question> data, Context context) {
+		this.mData = data;
+		this.context = context;
+	}
+
+	@Override
+	public int getCount() {
+		return mData.size();
+	}
+
+	@Override
+	public Question getItem(int position) {
+		return mData.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+
+
+		convertView = LayoutInflater.from(context).inflate(R.layout.card, parent,false);
+		convertView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//		convertView = getLayoutInflater().inflate(R.layout.card, parent, false);
+		TextView cardBodyTextView = (TextView) convertView.findViewById(R.id.cardBodyTextView);
+		cardBodyTextView.setText(mData.get(position).getQuestionBody().toUpperCase());
+		cardBodyTextView.setText(String.valueOf(mData.get(position).getQuestionId()));
+
+//		cardBodyTextView.setTypeface(getResources().getFont().R.font.helvetica_bold);
+
+		TextView cardExpansionTextView = (TextView) convertView.findViewById(R.id.cardExpansionTextView);
+
+		if(!mData.get(position).getQuestionType().equals("base")) {
+			cardExpansionTextView.setText(mData.get(position).getQuestionType().toUpperCase() + " EXPANSION PACK");
+		} else {
+			cardExpansionTextView.setVisibility(View.INVISIBLE);
+		}
+
+//		mData.pop();
+
+
+
+		return convertView;
+	}
+}
