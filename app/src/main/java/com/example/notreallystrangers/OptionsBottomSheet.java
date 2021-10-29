@@ -5,31 +5,105 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.List;
 
 public class OptionsBottomSheet extends BottomSheetDialogFragment {
 
-
-	private SwitchMaterial mSwitchShuffle;
 	private boolean shuffled = false;
+	private Chip chipShuffle, chipBase, chipHonestDating, chipRelationship, chipInnerCircle, chipBreakup, chipOwnIt;
+	private ChipGroup chipGroup;
+	private List<Integer> selectedDecks;
 
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.bottom_sheet_layout, container, false);
 
-		mSwitchShuffle = (SwitchMaterial) v.findViewById(R.id.switchShuffle);
+		chipGroup = (ChipGroup) v.findViewById(R.id.chipGroup);
+
+		chipShuffle = (Chip) v.findViewById(R.id.chipShuffle);
+		chipBase = (Chip) v.findViewById(R.id.chipBase);
+		chipHonestDating = (Chip) v.findViewById(R.id.chipHonestDating);
+		chipRelationship = (Chip) v.findViewById(R.id.chipRelationship);
+		chipInnerCircle = (Chip) v.findViewById(R.id.chipInnerCircle);
+		chipBreakup = (Chip) v.findViewById(R.id.chipBreakup);
+		chipOwnIt = (Chip) v.findViewById(R.id.chipOwnIt);
 
 		shuffled = getArguments().getBoolean("shuffled");
 
-		mSwitchShuffle.setChecked(shuffled);
+		chipGroup.setSelectionRequired(true);
 
 		System.out.println(shuffled);
+
+
+		/*
+		ChipGroup.OnCheckedChangeListener checkedChangeListener = new ChipGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(ChipGroup group, int checkedId) {
+				String msg = "Chips checked are:";
+				int chipsCount = chipGroup.getChildCount();
+				if (chipsCount == 0) {
+					msg += " None!!";
+				} else {
+					int i = 0;
+					while (i < chipsCount) {
+						Chip chip = (Chip) chipGroup.getChildAt(i);
+						if (chip.isChecked() ) {
+							msg += chip.getText().toString() + " " ;
+						}
+						i++;
+					};
+				}
+				// show message
+				Toast.makeText(getContext().getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+			}
+
+		};
+
+		chipGroup.setOnCheckedChangeListener(checkedChangeListener);
+		*/
+
+		CompoundButton.OnCheckedChangeListener checkedChangeListener1 = new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				String msg = "Chips checked are:";
+				int chipsCount = chipGroup.getChildCount();
+				if (chipsCount == 0) {
+					msg += " None!!";
+				} else {
+					int i = 0;
+					while (i < chipsCount) {
+						Chip chip = (Chip) chipGroup.getChildAt(i);
+						if (chip.isChecked() ) {
+							msg += chip.getText().toString() + " " ;
+						}
+						i++;
+					};
+				}
+				// show message
+				Toast.makeText(getContext().getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+			}
+		};
+
+		chipShuffle.setOnCheckedChangeListener(checkedChangeListener1);
+		chipBase.setOnCheckedChangeListener(checkedChangeListener1);
+		chipHonestDating.setOnCheckedChangeListener(checkedChangeListener1);
+		chipRelationship.setOnCheckedChangeListener(checkedChangeListener1);
+		chipInnerCircle.setOnCheckedChangeListener(checkedChangeListener1);
+		chipBreakup.setOnCheckedChangeListener(checkedChangeListener1);
+		chipOwnIt.setOnCheckedChangeListener(checkedChangeListener1);
+
+
+/*
 
 		mSwitchShuffle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -51,7 +125,7 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 				System.out.println(shuffled);
 
 			}
-		});
+		});*/
 
 
 		return v;

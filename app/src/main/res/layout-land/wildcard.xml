@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:cardBackgroundColor="@color/red"
     app:cardCornerRadius="32dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +41,7 @@
             android:lineSpacingExtra="8sp"
             android:text="WHAT DO YOU THINK I'M GOING TO DO IN THE FUTURE WHAT DO YOU THINK I'M GOING TO DO IN THE FUTURE WHAT DO YOU THINK I'M GOING TO DO IN THE FUTURE"
             android:textAlignment="center"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
             android:typeface="sans"
@@ -58,7 +59,7 @@
             android:layout_marginBottom="32dp"
             android:fontFamily="@font/helvetica_family"
             android:text="TextView"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             android:typeface="sans"

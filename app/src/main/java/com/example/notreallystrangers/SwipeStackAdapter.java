@@ -1,7 +1,6 @@
 package com.example.notreallystrangers;
 
 import android.content.Context;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +39,20 @@ public class SwipeStackAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
+		if(mData.get(position).getIsWildCard().equals("true")) {
+			convertView = LayoutInflater.from(context).inflate(R.layout.wildcard, parent,false);
+		} else {
+			convertView = LayoutInflater.from(context).inflate(R.layout.card, parent,false);
+		}
 
-		convertView = LayoutInflater.from(context).inflate(R.layout.card, parent,false);
-		convertView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+
+//		convertView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 //		convertView = getLayoutInflater().inflate(R.layout.card, parent, false);
 		TextView cardBodyTextView = (TextView) convertView.findViewById(R.id.cardBodyTextView);
 		cardBodyTextView.setText(mData.get(position).getQuestionBody().toUpperCase());
-		cardBodyTextView.setText(String.valueOf(mData.get(position).getQuestionId()));
+
+		cardBodyTextView.setText(String.valueOf(mData.get(position).getQuestionId()) + "" + mData.get(position).getQuestionBody());
 
 //		cardBodyTextView.setTypeface(getResources().getFont().R.font.helvetica_bold);
 
@@ -57,6 +63,8 @@ public class SwipeStackAdapter extends BaseAdapter {
 		} else {
 			cardExpansionTextView.setVisibility(View.INVISIBLE);
 		}
+
+
 
 //		mData.pop();
 

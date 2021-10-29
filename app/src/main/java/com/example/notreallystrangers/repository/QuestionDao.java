@@ -21,4 +21,7 @@ public interface QuestionDao {
 
 	@Insert
 	public void insertQuestion(Question question);
+
+	@Query("SELECT * FROM question WHERE is_wildcard = 'true'")
+	List<Question> getWildcards();
 }
