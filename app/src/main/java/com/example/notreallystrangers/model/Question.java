@@ -8,7 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Question implements Parcelable {
+public class Question implements Parcelable, Comparable<Question> {
 	@PrimaryKey(autoGenerate = true)
 	private int questionId;
 
@@ -106,4 +106,8 @@ public class Question implements Parcelable {
 	}
 
 
+	@Override
+	public int compareTo(Question question) {
+		return this.getQuestionId() - question.getQuestionId();
+	}
 }

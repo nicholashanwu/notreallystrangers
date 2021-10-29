@@ -12,23 +12,6 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/cardWildcardTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:fontFamily="@font/helvetica_family"
-            android:lineSpacingExtra="8sp"
-            android:text="WILDCARD"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:typeface="sans"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/cardBodyTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

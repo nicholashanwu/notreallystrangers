@@ -20,6 +20,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica_family"
+                android:text="Welcome to NotReallyStrangers."
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <link.fls.swipestack.SwipeStack
                 android:id="@+id/bodyTextView"
                 android:layout_width="0dp"
@@ -38,7 +49,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:stack_rotation="6"
                 app:stack_size="5"
-                app:stack_spacing="4dp" />
+                app:stack_spacing="4dp" >
+
+            </link.fls.swipestack.SwipeStack>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

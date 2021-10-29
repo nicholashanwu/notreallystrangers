@@ -24,9 +24,9 @@ public abstract class AppDatabase extends RoomDatabase {
 			synchronized (AppDatabase.class) {
 				if (INSTANCE == null) {
 					try {
-/*
 
-						INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+
+						/*INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
 								AppDatabase.class,
 								"database_name").
 								allowMainThreadQueries().
@@ -34,8 +34,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
 						prepopulateData(INSTANCE);
 
-						System.out.println("prepopulated");
-*/
+						System.out.println("prepopulated");*/
+
 
 						INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
 								AppDatabase.class,
@@ -80,102 +80,102 @@ public abstract class AppDatabase extends RoomDatabase {
 //		AppDatabase db = AppDatabase.getInstance(this);
 
 		//Base pack
-		db.questionDao().insertQuestion(new Question("base", "false", "Do you think I've ever been in love?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What about me is most strange or unfamiliar?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Do you think I've ever had my heart broken?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think I'd splurge on?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think my major is?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think I'm going to do in the future (work/employment)"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What was your first impression of me?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Do you think I was popular in high school?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "On a scale of 1 - 10, how messy do you think my car is?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Do you think I like hot cheetos?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Do you think I like to read?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Do you think I'm in Greek Life? (frats/sororities)"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Do you think I have a sibling? Older or younger?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Who do you think is my favorite artist?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Where do you think I grew up?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Do you think I like Taco Bell? "));
-		db.questionDao().insertQuestion(new Question("base", "false", "What's the last thing you lied about?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What is your most defining characteristic?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Are you lying to yourself about anything?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "How are you, really?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What is your least favorite personality trait in a person?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "When is the last time you felt lucky to be you?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Which one of your parent's personality traits do you want to keep/let go of?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What would you tell your younger self and what have you learned from this lesson?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What is the last thing you lied to your mum about?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What's the worst pain you've ever been in that wasn't physical?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What's your father's name and one thing about him?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What's the most unexplainable thing that has ever happened to you?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What would your younger self not believe about your life today?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What non-domestic animal describes you and why?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What is your favorite adjective with which to be described?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What are you still trying to prove to yourself?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "When is the last time you cried?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "If you could instill one personality trait in your child, what would it be?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What's your favorite song lyric that you can think of off the top of your head?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Think of someone that you admire. What made you think about them specifically?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What's the biggest mistake you've made?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What's a phrase you say that you wish you would stop saying?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What are you most excited for today? Big or small."));
-		db.questionDao().insertQuestion(new Question("base", "false", "Which movie do you wish you could watch again for the first time and why?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Based on what you learned about me what would you recommend I read?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What about me surprised you?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Based on what you know about me, do you have a Netflix/movie recommendation?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think my superpower is?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think our most important similarities are?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think is one thing I could do that would drastically improve my life?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What would be the perfect gift for me?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "How would you describe me to a stranger?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do I need to hear right now?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Based on what you've learned about me, does my social media portray me accurately?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What is a lesson you will take away from our conversation?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What can I help you with?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think do I fear the most?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What am I most qualified to give advice about?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What about me is the hardest for you to understand?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "If we were a band what would be our name?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What parts of yourself do you see in me?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "How does one earn your vulnerability?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you recommend I should let go of?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What has this conversation taught you about yourself?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think my defining characteristic is?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What question were you most afraid to answer?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "Why do you think we met?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "When this game is over, what will be something you will remember about me?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think my weakness is?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "How do our personalities complement each other?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you think I should know about myself that perhaps I'm unaware of?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What would make you feel closer to me?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What do you admire most about me?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "In one word, describe how you feel right now."));
-		db.questionDao().insertQuestion(new Question("base", "false", "Do you believe everyone has a calling? If so, do you think I've found mine?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What answer of mine made you light up?"));
-		db.questionDao().insertQuestion(new Question("base", "false", "What's the most attractive quality about me that isn't physical?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Do you think I've ever been in love?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What about me is most strange or unfamiliar?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Do you think I've ever had my heart broken?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think I'd splurge on?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think my major is?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think I'm going to do in the future (work/employment)"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What was your first impression of me?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Do you think I was popular in high school?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "On a scale of 1 - 10, how messy do you think my car is?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Do you think I like hot cheetos?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Do you think I like to read?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Do you think I'm in Greek Life? (frats/sororities)"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Do you think I have a sibling? Older or younger?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Who do you think is my favorite artist?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Where do you think I grew up?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Do you think I like Taco Bell? "));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What's the last thing you lied about?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What is your most defining characteristic?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Are you lying to yourself about anything?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "How are you, really?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What is your least favorite personality trait in a person?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "When is the last time you felt lucky to be you?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Which one of your parent's personality traits do you want to keep/let go of?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What would you tell your younger self and what have you learned from this lesson?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What is the last thing you lied to your mum about?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What's the worst pain you've ever been in that wasn't physical?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What's your father's name and one thing about him?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What's the most unexplainable thing that has ever happened to you?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What would your younger self not believe about your life today?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What non-domestic animal describes you and why?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What is your favorite adjective with which to be described?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What are you still trying to prove to yourself?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "When is the last time you cried?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "If you could instill one personality trait in your child, what would it be?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What's your favorite song lyric that you can think of off the top of your head?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Think of someone that you admire. What made you think about them specifically?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What's the biggest mistake you've made?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What's a phrase you say that you wish you would stop saying?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What are you most excited for today? Big or small."));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Which movie do you wish you could watch again for the first time and why?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Based on what you learned about me what would you recommend I read?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What about me surprised you?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Based on what you know about me, do you have a Netflix/movie recommendation?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think my superpower is?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think our most important similarities are?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think is one thing I could do that would drastically improve my life?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What would be the perfect gift for me?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "How would you describe me to a stranger?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do I need to hear right now?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Based on what you've learned about me, does my social media portray me accurately?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What is a lesson you will take away from our conversation?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What can I help you with?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think do I fear the most?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What am I most qualified to give advice about?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What about me is the hardest for you to understand?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "If we were a band what would be our name?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What parts of yourself do you see in me?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "How does one earn your vulnerability?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you recommend I should let go of?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What has this conversation taught you about yourself?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think my defining characteristic is?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What question were you most afraid to answer?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Why do you think we met?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "When this game is over, what will be something you will remember about me?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think my weakness is?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "How do our personalities complement each other?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you think I should know about myself that perhaps I'm unaware of?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What would make you feel closer to me?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What do you admire most about me?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "In one word, describe how you feel right now."));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "Do you believe everyone has a calling? If so, do you think I've found mine?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What answer of mine made you light up?"));
+		db.questionDao().insertQuestion(new Question("base pack", "false", "What's the most attractive quality about me that isn't physical?"));
 
 
 		// Base pack wildcards
-		db.questionDao().insertQuestion(new Question("base", "true", "Based on what you learned re-write each other's dating app bios."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Draw a picture together (30 secs)"));
-		db.questionDao().insertQuestion(new Question("base", "true", "Look into each other's eyes for 30 seconds. What did you notice?"));
-		db.questionDao().insertQuestion(new Question("base", "true", "Think of your favourite childhood TV show. Say it out loud together on the count of three. "));
-		db.questionDao().insertQuestion(new Question("base", "true", "Take a selfie together"));
-		db.questionDao().insertQuestion(new Question("base", "true", "Staring contest! First person to blink reveals a personal problem and asks the other person for advice. "));
-		db.questionDao().insertQuestion(new Question("base", "true", "Create your own question and ask the other person."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Tell the other person to close their eyes. After 10 seconds, tell the other person your favourite memory of them or the two of you"));
-		db.questionDao().insertQuestion(new Question("base", "true", "Tell the other person to close their eyes and keep them closed. After 15 seconds, kiss them."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Press shuffle on your music library. Explain the first song that comes up."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Both players share something they are grateful for in this current moment."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Both players draw their feelings. Compare with the other person."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Show the first photo in your camera roll. Explain."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Both players think of something that they dislike that most people don't. On the count of three, say it out loud."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Share a favourite memory of yours. Compare."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Both players sing their favourite song lyrics."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Share your phone's screen time."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Write down your top 2 relationship dealbreakers. Both players. Compare."));
-		db.questionDao().insertQuestion(new Question("base", "true", "Staring contest! First person to blink has to show an embarrassing video from at least 3 years ago."));
-		db.questionDao().insertQuestion(new Question("base", "final", "Write a message to the other person and give it to them. Open it once you have left."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Based on what you learned re-write each other's dating app bios."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Draw a picture together (30 secs)"));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Look into each other's eyes for 30 seconds. What did you notice?"));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Think of your favourite childhood TV show. Say it out loud together on the count of three. "));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Take a selfie together"));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Staring contest! First person to blink reveals a personal problem and asks the other person for advice. "));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Create your own question and ask the other person."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Tell the other person to close their eyes. After 10 seconds, tell the other person your favourite memory of them or the two of you"));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Tell the other person to close their eyes and keep them closed. After 15 seconds, kiss them."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Press shuffle on your music library. Explain the first song that comes up."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Both players share something they are grateful for in this current moment."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Both players draw their feelings. Compare with the other person."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Show the first photo in your camera roll. Explain."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Both players think of something that they dislike that most people don't. On the count of three, say it out loud."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Share a favourite memory of yours. Compare."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Both players sing their favourite song lyrics."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Share your phone's screen time."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Write down your top 2 relationship dealbreakers. Both players. Compare."));
+		db.questionDao().insertQuestion(new Question("base pack", "true", "Staring contest! First person to blink has to show an embarrassing video from at least 3 years ago."));
+		db.questionDao().insertQuestion(new Question("base pack", "final", "Write a message to the other person and give it to them. Open it once you have left."));
 
 
 

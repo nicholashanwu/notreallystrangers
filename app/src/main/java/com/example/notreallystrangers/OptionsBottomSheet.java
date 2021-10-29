@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,14 +13,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class OptionsBottomSheet extends BottomSheetDialogFragment {
 
 	private boolean shuffled = false;
 	private Chip chipShuffle, chipBase, chipHonestDating, chipRelationship, chipInnerCircle, chipBreakup, chipOwnIt;
 	private ChipGroup chipGroup;
-	private List<Integer> selectedDecks;
+	private ArrayList<String> selectedDecks;
 
 	@Nullable
 	@Override
@@ -39,10 +38,19 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 		chipOwnIt = (Chip) v.findViewById(R.id.chipOwnIt);
 
 		shuffled = getArguments().getBoolean("shuffled");
+		selectedDecks = getArguments().getStringArrayList("selectedDecks");
 
 		chipGroup.setSelectionRequired(true);
 
+
 		System.out.println(shuffled);
+
+		for (int i = 0; i < chipGroup.getChildCount(); i++) {
+			Chip chip = (Chip) chipGroup.getChildAt(i);
+			if (selectedDecks.contains(chip.getText().toString().toLowerCase())) {
+				chip.setChecked(true);
+			}
+		}
 
 
 		/*
@@ -83,14 +91,30 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 					int i = 0;
 					while (i < chipsCount) {
 						Chip chip = (Chip) chipGroup.getChildAt(i);
-						if (chip.isChecked() ) {
+						if (chip.isChecked() && !selectedDecks.contains(chip.getText().toString().toLowerCase())) {
+							selectedDecks.add(chip.getText().toString().toLowerCase());
 							msg += chip.getText().toString() + " " ;
+							Bundle bundle = new Bundle();
+
+							bundle.putStringArrayList("bundleKey", selectedDecks);
+							getParentFragmentManager().setFragmentResult("requestKey", bundle);
+						} else if (!chip.isChecked() && selectedDecks.contains(chip.getText().toString().toLowerCase()) && selectedDecks.size() > 1) {
+							selectedDecks.remove(chip.getText().toString().toLowerCase());
+							Bundle bundle = new Bundle();
+
+							bundle.putStringArrayList("bundleKey", selectedDecks);
+							getParentFragmentManager().setFragmentResult("requestKey", bundle);
 						}
 						i++;
 					};
 				}
 				// show message
-				Toast.makeText(getContext().getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+//				Toast.makeText(getContext().getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+//				Toast.makeText(getContext().getApplicationContext(), selectedDecks.get(0) + " " + selectedDecks.get(1), Toast.LENGTH_LONG).show();
+
+
+
+
 			}
 		};
 
@@ -101,6 +125,8 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 		chipInnerCircle.setOnCheckedChangeListener(checkedChangeListener1);
 		chipBreakup.setOnCheckedChangeListener(checkedChangeListener1);
 		chipOwnIt.setOnCheckedChangeListener(checkedChangeListener1);
+
+
 
 
 /*
@@ -130,4 +156,6 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 
 		return v;
 	}
+
+
 }

@@ -39,6 +39,7 @@ public class SwipeStackAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
+
 		if(mData.get(position).getIsWildCard().equals("true")) {
 			convertView = LayoutInflater.from(context).inflate(R.layout.wildcard, parent,false);
 		} else {
@@ -58,7 +59,7 @@ public class SwipeStackAdapter extends BaseAdapter {
 
 		TextView cardExpansionTextView = (TextView) convertView.findViewById(R.id.cardExpansionTextView);
 
-		if(!mData.get(position).getQuestionType().equals("base")) {
+		if(!mData.get(position).getQuestionType().equals("base pack")) {
 			cardExpansionTextView.setText(mData.get(position).getQuestionType().toUpperCase() + " EXPANSION PACK");
 		} else {
 			cardExpansionTextView.setVisibility(View.INVISIBLE);

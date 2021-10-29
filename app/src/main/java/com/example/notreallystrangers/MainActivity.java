@@ -5,9 +5,11 @@ import android.os.Parcelable;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.example.notreallystrangers.model.Question;
 import com.example.notreallystrangers.repository.AppDatabase;
@@ -21,21 +23,18 @@ import link.fls.swipestack.SwipeStack;
 
 public class MainActivity extends AppCompatActivity {
 
+	private AppDatabase db;
+
 	private FloatingActionButton mButton;
 	private SwipeStack swipeStack;
+
+	private ArrayList<String> selectedDecks;
 
 	private	List<Question> questionList = new ArrayList<>();
 	private	List<Question> shuffledQuestionList = new ArrayList<>();
 
-	private List<Question> usedQuestionList = new ArrayList<>();
-	private List<Question> usedShuffledQuestionList = new ArrayList<>();
-
-	private int cardPosition = 0;
-	private int shuffledCardPosition = 0;
-
 	private TextView exampleTextView;
 
-	private boolean shuffled = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
 		swipeStack = (SwipeStack) findViewById(R.id.bodyTextView);
 		mButton = (FloatingActionButton) findViewById(R.id.button);
+		exampleTextView = (TextView) findViewById(R.id.exampleTextView);
 
-		AppDatabase.getInstance(this);
+		db = AppDatabase.getInstance(this);
 
 		swipeStack.setListener(new SwipeStack.SwipeStackListener() {			//view listener
 			@Override
 			public void onViewSwipedToLeft(int position) {											//position of view that was swiped away. position + 1 should be current view
 				swipeStack.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-				cardPosition = position;
-
 			}
 
 			@Override
 			public void onViewSwipedToRight(int position) {
 				swipeStack.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-				cardPosition = position;
-
 			}
 
 			@Override
@@ -68,13 +64,19 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
+		questionList = AppDatabase.getInstance(this).questionDao().getQuestionsOfType("base pack");
 
-		shuffledQuestionList = AppDatabase.getInstance(this).questionDao().getAllQuestions();
 
-		questionList = AppDatabase.getInstance(this).questionDao().getAllQuestions();
-		questionList = AppDatabase.getInstance(this).questionDao().getWildcards();
 
 		Collections.shuffle(shuffledQuestionList);
+
+		selectedDecks = new ArrayList<>();
+
+		/*if(selectedDecks.isEmpty()) {
+			selectedDecks.add("base pack");
+		}
+
+		reloadDecks(selectedDecks);*/
 
 
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 		Collections.reverse(shuffledQuestionList);
 		*/
 
-//		exampleTextView.setText(questionList.get(0).getQuestionBody());
+		exampleTextView.setText(String.valueOf(questionList.size()));
 
 
 
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View view) {
 				OptionsBottomSheet bottomSheet = new OptionsBottomSheet();
 				Bundle bundle = new Bundle();
-				bundle.putBoolean("shuffled", shuffled);
+				bundle.putStringArrayList("selectedDecks", selectedDecks);
 				bottomSheet.setArguments(bundle);
 
 				bottomSheet.show(getSupportFragmentManager(), "bottomSheet");
@@ -100,25 +102,25 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
+		if (savedInstanceState != null) {																			//restore state
 
-
-		if (savedInstanceState != null) {
-			shuffled = savedInstanceState.getBoolean("shuffled");
 			questionList = savedInstanceState.getParcelableArrayList("questionList");
 			shuffledQuestionList = savedInstanceState.getParcelableArrayList("shuffledQuestionList");
-			shuffledCardPosition = savedInstanceState.getInt("shuffledCardPosition");
-			cardPosition = savedInstanceState.getInt("cardPosition");
-
-
+			selectedDecks = savedInstanceState.getStringArrayList("selectedDecks");
 		}
 
-		if(shuffled) {
-			swipeStack.setAdapter(new SwipeStackAdapter(shuffledQuestionList, this));
-		} else {
-			swipeStack.setAdapter(new SwipeStackAdapter(questionList, this));
-		}
+		getSupportFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+			@Override
+			public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+				// We use a String here, but any type that can be put in a Bundle is supported
+				ArrayList<String> result = bundle.getStringArrayList("bundleKey");
+				// Do something with the result
 
-		System.out.println("shuffled is " + shuffled);
+				Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_SHORT).show();
+				reloadDecks(result);
+
+			}
+		});
 	}
 
 	//base
@@ -128,31 +130,37 @@ public class MainActivity extends AppCompatActivity {
 	//breakup
 	//own it
 
-	public void sortList() {
-		swipeStack.resetStack();
-		swipeStack.swipeTopViewToLeft();
 
-		swipeStack.setAdapter(new SwipeStackAdapter(questionList, this));
-		shuffled = false;
-	}
 
-	public void shuffleList() {
+	public void reloadDecks(ArrayList<String> selectedDecks) {
+		List<Question> newQuestionList = new ArrayList<>();
+
+		for(String deckString : selectedDecks) {
+			if(!deckString.equals("shuffle")) {
+				newQuestionList.addAll(db.questionDao().getQuestionsOfType(deckString));
+			}
+		}
+
+		if(selectedDecks.contains("shuffle")) {
+			Collections.shuffle(newQuestionList);
+		} else {
+			Collections.sort(newQuestionList);
+		}
+
+		questionList = newQuestionList;
+		System.out.println(newQuestionList.get(0).getQuestionType());
 		swipeStack.resetStack();
-		swipeStack.setAdapter(new SwipeStackAdapter(shuffledQuestionList, this));
-		shuffled = true;
+		swipeStack.setAdapter(new SwipeStackAdapter(newQuestionList, this));
+
 	}
 
 	@Override
 	protected void onSaveInstanceState(@NonNull Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		questionList.removeAll(usedQuestionList);
-		shuffledQuestionList.removeAll(usedShuffledQuestionList);
-
-		outState.putBoolean("shuffled", shuffled);
-
 		outState.putParcelableArrayList("questionList", (ArrayList<? extends Parcelable>) questionList);
 		outState.putParcelableArrayList("shuffledQuestionList", (ArrayList<? extends Parcelable>) shuffledQuestionList);
+		outState.putStringArrayList("selectedDecks", selectedDecks);
 
 	}
 
