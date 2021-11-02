@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
@@ -17,19 +20,28 @@ import java.util.ArrayList;
 
 public class OptionsBottomSheet extends BottomSheetDialogFragment {
 
-	private boolean shuffled = false;
-	private Chip chipShuffle, chipBase, chipHonestDating, chipRelationship, chipInnerCircle, chipBreakup, chipOwnIt;
+	private Chip chipBase, chipHonestDating, chipRelationship, chipInnerCircle, chipBreakup, chipOwnIt;
 	private ChipGroup chipGroup;
+	private CheckBox checkBoxShuffle;
+	private CheckBox checkBoxDarkMode;
+
 	private ArrayList<String> selectedDecks;
+
+	private boolean shuffled = false;
+
+	private boolean darkMode;
 
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
 		View v = inflater.inflate(R.layout.bottom_sheet_layout, container, false);
+
+		checkBoxShuffle = (CheckBox) v.findViewById(R.id.checkBoxShuffle);
+		checkBoxDarkMode = (CheckBox) v.findViewById(R.id.checkBoxDarkMode);
 
 		chipGroup = (ChipGroup) v.findViewById(R.id.chipGroup);
 
-		chipShuffle = (Chip) v.findViewById(R.id.chipShuffle);
 		chipBase = (Chip) v.findViewById(R.id.chipBase);
 		chipHonestDating = (Chip) v.findViewById(R.id.chipHonestDating);
 		chipRelationship = (Chip) v.findViewById(R.id.chipRelationship);
@@ -39,86 +51,70 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 
 		shuffled = getArguments().getBoolean("shuffled");
 		selectedDecks = getArguments().getStringArrayList("selectedDecks");
+		darkMode = getArguments().getBoolean("darkMode");
 
-		chipGroup.setSelectionRequired(true);
-
-
-		System.out.println(shuffled);
-
-		for (int i = 0; i < chipGroup.getChildCount(); i++) {
-			Chip chip = (Chip) chipGroup.getChildAt(i);
-			if (selectedDecks.contains(chip.getText().toString().toLowerCase())) {
-				chip.setChecked(true);
-			}
-		}
+		updateUI();
 
 
-		/*
-		ChipGroup.OnCheckedChangeListener checkedChangeListener = new ChipGroup.OnCheckedChangeListener() {
+		checkBoxShuffle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
-			public void onCheckedChanged(ChipGroup group, int checkedId) {
-				String msg = "Chips checked are:";
-				int chipsCount = chipGroup.getChildCount();
-				if (chipsCount == 0) {
-					msg += " None!!";
-				} else {
-					int i = 0;
-					while (i < chipsCount) {
-						Chip chip = (Chip) chipGroup.getChildAt(i);
-						if (chip.isChecked() ) {
-							msg += chip.getText().toString() + " " ;
-						}
-						i++;
-					};
-				}
-				// show message
-				Toast.makeText(getContext().getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				shuffled = !shuffled;
+				Toast.makeText(getContext().getApplicationContext(), "Shuffled = " + shuffled, Toast.LENGTH_SHORT).show();
+				updateUI();
+				reloadDecks();
 			}
+		});
 
-		};
 
-		chipGroup.setOnCheckedChangeListener(checkedChangeListener);
-		*/
+		checkBoxDarkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+				if(darkMode) {
+					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+				} else {
+					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+				}
+				darkMode = !darkMode;
+
+				updateUI();
+				reloadDecks();
+
+			}
+		});
+
+
+		
+
 
 		CompoundButton.OnCheckedChangeListener checkedChangeListener1 = new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-				String msg = "Chips checked are:";
+
+				chipGroup.getChildAt(0); //shuffle
 				int chipsCount = chipGroup.getChildCount();
-				if (chipsCount == 0) {
-					msg += " None!!";
-				} else {
-					int i = 0;
-					while (i < chipsCount) {
-						Chip chip = (Chip) chipGroup.getChildAt(i);
-						if (chip.isChecked() && !selectedDecks.contains(chip.getText().toString().toLowerCase())) {
-							selectedDecks.add(chip.getText().toString().toLowerCase());
-							msg += chip.getText().toString() + " " ;
-							Bundle bundle = new Bundle();
 
-							bundle.putStringArrayList("bundleKey", selectedDecks);
-							getParentFragmentManager().setFragmentResult("requestKey", bundle);
-						} else if (!chip.isChecked() && selectedDecks.contains(chip.getText().toString().toLowerCase()) && selectedDecks.size() > 1) {
-							selectedDecks.remove(chip.getText().toString().toLowerCase());
-							Bundle bundle = new Bundle();
+				for (int i = 0; i < chipsCount; i++) {
 
-							bundle.putStringArrayList("bundleKey", selectedDecks);
-							getParentFragmentManager().setFragmentResult("requestKey", bundle);
-						}
-						i++;
-					};
+					Chip chip = (Chip) chipGroup.getChildAt(i);
+
+					if (chip.isChecked() && !selectedDecks.contains(chip.getText().toString().toLowerCase())) {                // if the chip is checked and the selected decks does not already have that deck, add it and allow the shuffle button to be checked.
+
+						selectedDecks.add(chip.getText().toString().toLowerCase());
+						updateUI();
+						reloadDecks();
+
+					} else if (!chip.isChecked() && selectedDecks.contains(chip.getText().toString().toLowerCase()) && selectedDecks.size() > 1) {            // if the chip is not checked and the selected decks contains that chip and there is at least one other selected deck, remove that deck
+						selectedDecks.remove(chip.getText().toString().toLowerCase());
+						updateUI();
+						reloadDecks();
+					}
 				}
-				// show message
-//				Toast.makeText(getContext().getApplicationContext(),msg, Toast.LENGTH_LONG).show();
-//				Toast.makeText(getContext().getApplicationContext(), selectedDecks.get(0) + " " + selectedDecks.get(1), Toast.LENGTH_LONG).show();
-
-
-
 
 			}
 		};
 
-		chipShuffle.setOnCheckedChangeListener(checkedChangeListener1);
 		chipBase.setOnCheckedChangeListener(checkedChangeListener1);
 		chipHonestDating.setOnCheckedChangeListener(checkedChangeListener1);
 		chipRelationship.setOnCheckedChangeListener(checkedChangeListener1);
@@ -126,36 +122,38 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 		chipBreakup.setOnCheckedChangeListener(checkedChangeListener1);
 		chipOwnIt.setOnCheckedChangeListener(checkedChangeListener1);
 
-
-
-
-/*
-
-		mSwitchShuffle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-				MainActivity mainActivity = (MainActivity) getActivity();
-
-				if(mSwitchShuffle.isChecked()) {
-					System.out.println("shuffling...");
-					mainActivity.shuffleList();
-
-				} else {
-					System.out.println("sorting...");
-					mainActivity.sortList();
-				}
-
-
-				shuffled = !shuffled;
-				System.out.println(shuffled);
-
-			}
-		});*/
-
-
 		return v;
 	}
+
+
+	public void updateUI () {
+
+		chipGroup.setSelectionRequired(true);
+
+		checkBoxShuffle.setEnabled(!selectedDecks.isEmpty());
+
+		checkBoxShuffle.setChecked(shuffled);
+
+		checkBoxDarkMode.setChecked(darkMode);
+
+		// check the appropriate chips
+		for (int i = 0; i < chipGroup.getChildCount(); i++) {
+			Chip chip = (Chip) chipGroup.getChildAt(i);
+			if (selectedDecks.contains(chip.getText().toString().toLowerCase())) {
+				chip.setChecked(true);
+			}
+		}
+	}
+
+
+	public void reloadDecks(){
+
+		Bundle bundle = new Bundle();
+		bundle.putStringArrayList("bundleKey", selectedDecks);
+		bundle.putBoolean("shuffled", shuffled);
+		getParentFragmentManager().setFragmentResult("requestKey", bundle);
+	}
+
 
 
 }

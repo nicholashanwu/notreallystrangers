@@ -24,54 +24,55 @@
                 android:id="@+id/bodyTextView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_gravity="top"
                 android:hapticFeedbackEnabled="true"
                 android:paddingLeft="32dp"
                 android:paddingTop="32dp"
-                android:paddingRight="32dp"
-                android:paddingBottom="128dp"
+                android:paddingRight="128dp"
+                android:paddingBottom="64dp"
                 app:animation_duration="750"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio=""
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
                 app:stack_rotation="6"
                 app:stack_size="5"
-                app:stack_spacing="4dp" >
+                app:stack_spacing="4dp" />
 
-            </link.fls.swipestack.SwipeStack>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@null"
+
+                android:clickable="true"
+                android:elevation="0dp"
+                android:outlineProvider="none"
+                app:backgroundTint="@android:color/transparent"
+                app:elevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:rippleColor="@null"
+                app:srcCompat="@drawable/ic_round_tune_24"
+                app:tint="@color/red" />
+
+            <TextView
+                android:id="@+id/exampleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/button"
+                app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </FrameLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@null"
-        android:clickable="true"
-        android:elevation="0dp"
-        android:outlineProvider="none"
-        app:backgroundTint="@android:color/transparent"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/card"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@null"
-        app:srcCompat="@drawable/ic_round_tune_24"
-        app:tint="@color/red" />
-
-    <TextView
-        android:id="@+id/exampleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

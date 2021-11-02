@@ -1,5 +1,6 @@
 package com.example.notreallystrangers;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.HapticFeedbackConstants;
@@ -25,16 +26,17 @@ public class MainActivity extends AppCompatActivity {
 
 	private AppDatabase db;
 
-	private FloatingActionButton mButton;
 	private SwipeStack swipeStack;
+	private TextView exampleTextView;
+	private FloatingActionButton mButton;
 
 	private ArrayList<String> selectedDecks;
 
 	private	List<Question> questionList = new ArrayList<>();
-	private	List<Question> shuffledQuestionList = new ArrayList<>();
 
-	private TextView exampleTextView;
+	private boolean shuffled;
 
+	private boolean darkMode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +44,12 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 
 		swipeStack = (SwipeStack) findViewById(R.id.bodyTextView);
-		mButton = (FloatingActionButton) findViewById(R.id.button);
 		exampleTextView = (TextView) findViewById(R.id.exampleTextView);
+		mButton = (FloatingActionButton) findViewById(R.id.button);
 
 		db = AppDatabase.getInstance(this);
 
+		// perform vibrations on cards swiped
 		swipeStack.setListener(new SwipeStack.SwipeStackListener() {			//view listener
 			@Override
 			public void onViewSwipedToLeft(int position) {											//position of view that was swiped away. position + 1 should be current view
@@ -66,47 +69,35 @@ public class MainActivity extends AppCompatActivity {
 
 		questionList = AppDatabase.getInstance(this).questionDao().getQuestionsOfType("base pack");
 
-
-
-		Collections.shuffle(shuffledQuestionList);
-
 		selectedDecks = new ArrayList<>();
 
-		/*if(selectedDecks.isEmpty()) {
-			selectedDecks.add("base pack");
-		}
-
-		reloadDecks(selectedDecks);*/
-
-
-
-		/*
-		Collections.reverse(questionList);
-		Collections.reverse(shuffledQuestionList);
-		*/
+		getNightMode();
 
 		exampleTextView.setText(String.valueOf(questionList.size()));
-
-
 
 		mButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+
 				OptionsBottomSheet bottomSheet = new OptionsBottomSheet();
+
 				Bundle bundle = new Bundle();
 				bundle.putStringArrayList("selectedDecks", selectedDecks);
+				bundle.putBoolean("shuffled", shuffled);
+				bundle.putBoolean("darkMode", darkMode);
+
 				bottomSheet.setArguments(bundle);
-
 				bottomSheet.show(getSupportFragmentManager(), "bottomSheet");
-
 			}
 		});
 
 		if (savedInstanceState != null) {																			//restore state
 
-			questionList = savedInstanceState.getParcelableArrayList("questionList");
-			shuffledQuestionList = savedInstanceState.getParcelableArrayList("shuffledQuestionList");
 			selectedDecks = savedInstanceState.getStringArrayList("selectedDecks");
+			questionList = savedInstanceState.getParcelableArrayList("questionList");
+			shuffled = savedInstanceState.getBoolean("shuffled");
+			darkMode = savedInstanceState.getBoolean("darkMode");
+			swipeStack.setAdapter(new SwipeStackAdapter(questionList, this));
 		}
 
 		getSupportFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
@@ -114,11 +105,11 @@ public class MainActivity extends AppCompatActivity {
 			public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
 				// We use a String here, but any type that can be put in a Bundle is supported
 				ArrayList<String> result = bundle.getStringArrayList("bundleKey");
+				shuffled = bundle.getBoolean("shuffled");
 				// Do something with the result
 
 				Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_SHORT).show();
-				reloadDecks(result);
-
+				reloadDecks(result, shuffled);
 			}
 		});
 	}
@@ -132,25 +123,36 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-	public void reloadDecks(ArrayList<String> selectedDecks) {
+	public void getNightMode() {
+		int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+		switch (currentNightMode) {
+			case Configuration.UI_MODE_NIGHT_NO:
+				darkMode = false;
+				break;
+			case Configuration.UI_MODE_NIGHT_YES:
+				darkMode = true;
+				break;
+		}
+	}
+
+	public void reloadDecks(ArrayList<String> selectedDecks, boolean shuffled) {
 		List<Question> newQuestionList = new ArrayList<>();
 
 		for(String deckString : selectedDecks) {
-			if(!deckString.equals("shuffle")) {
-				newQuestionList.addAll(db.questionDao().getQuestionsOfType(deckString));
-			}
+			newQuestionList.addAll(db.questionDao().getQuestionsOfType(deckString));
 		}
 
-		if(selectedDecks.contains("shuffle")) {
+		if(shuffled) {
 			Collections.shuffle(newQuestionList);
 		} else {
 			Collections.sort(newQuestionList);
 		}
 
 		questionList = newQuestionList;
-		System.out.println(newQuestionList.get(0).getQuestionType());
 		swipeStack.resetStack();
 		swipeStack.setAdapter(new SwipeStackAdapter(newQuestionList, this));
+
+		this.selectedDecks = selectedDecks;
 
 	}
 
@@ -159,10 +161,13 @@ public class MainActivity extends AppCompatActivity {
 		super.onSaveInstanceState(outState);
 
 		outState.putParcelableArrayList("questionList", (ArrayList<? extends Parcelable>) questionList);
-		outState.putParcelableArrayList("shuffledQuestionList", (ArrayList<? extends Parcelable>) shuffledQuestionList);
 		outState.putStringArrayList("selectedDecks", selectedDecks);
+		outState.putBoolean("darkMode", darkMode);
+		outState.putBoolean("shuffled", shuffled);
 
 	}
+
+
 
 
 

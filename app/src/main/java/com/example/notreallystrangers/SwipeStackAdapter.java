@@ -53,7 +53,7 @@ public class SwipeStackAdapter extends BaseAdapter {
 		TextView cardBodyTextView = (TextView) convertView.findViewById(R.id.cardBodyTextView);
 		cardBodyTextView.setText(mData.get(position).getQuestionBody().toUpperCase());
 
-		cardBodyTextView.setText(String.valueOf(mData.get(position).getQuestionId()) + "" + mData.get(position).getQuestionBody());
+		cardBodyTextView.setText(mData.get(position).getQuestionId() + " - " + mData.get(position).getQuestionBody().toUpperCase());
 
 //		cardBodyTextView.setTypeface(getResources().getFont().R.font.helvetica_bold);
 

@@ -5,11 +5,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:cardBackgroundColor="@color/red"
     app:cardCornerRadius="32dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/cardWildcardTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/helvetica_family"
+            android:lineSpacingExtra="8sp"
+            android:text="WILDCARD"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/cardBodyTextView"
@@ -23,10 +41,9 @@
             android:lineSpacingExtra="8sp"
             android:text="WHAT DO YOU THINK I'M GOING TO DO IN THE FUTURE WHAT DO YOU THINK I'M GOING TO DO IN THE FUTURE WHAT DO YOU THINK I'M GOING TO DO IN THE FUTURE"
             android:textAlignment="center"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:theme="@style/Theme.NotReallyStrangers"
             android:typeface="sans"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +59,7 @@
             android:layout_marginBottom="32dp"
             android:fontFamily="@font/helvetica_family"
             android:text="TextView"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             android:typeface="sans"
