@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private boolean darkMode;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,13 +67,19 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-		questionList = AppDatabase.getInstance(this).questionDao().getQuestionsOfType("base pack");
+//		questionList = AppDatabase.getInstance(this).questionDao().getQuestionsOfType("base pack");
+
+		questionList = new ArrayList<>();
 
 		selectedDecks = new ArrayList<>();
 
 		getNightMode();
 
 		exampleTextView.setText(String.valueOf(questionList.size()));
+
+
+
+
 
 		mButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -84,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
 				Bundle bundle = new Bundle();
 				bundle.putStringArrayList("selectedDecks", selectedDecks);
 				bundle.putBoolean("shuffled", shuffled);
-				bundle.putBoolean("darkMode", darkMode);
+				bundle.putBoolean("darkMode", getNightMode());
+
+
 
 				bottomSheet.setArguments(bundle);
 				bottomSheet.show(getSupportFragmentManager(), "bottomSheet");
@@ -98,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
 			shuffled = savedInstanceState.getBoolean("shuffled");
 			darkMode = savedInstanceState.getBoolean("darkMode");
 			swipeStack.setAdapter(new SwipeStackAdapter(questionList, this));
+
+			System.out.println("selectedDecks " + selectedDecks.toString());
+			System.out.println("shuffled " + shuffled);
+			System.out.println("darkMode " + darkMode);
 		}
 
 		getSupportFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
@@ -108,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 				shuffled = bundle.getBoolean("shuffled");
 				// Do something with the result
 
-				Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_SHORT).show();
 				reloadDecks(result, shuffled);
 			}
 		});
@@ -123,30 +135,54 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-	public void getNightMode() {
+	public boolean getNightMode() {
 		int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 		switch (currentNightMode) {
 			case Configuration.UI_MODE_NIGHT_NO:
-				darkMode = false;
-				break;
+				return false;
 			case Configuration.UI_MODE_NIGHT_YES:
-				darkMode = true;
-				break;
+				return true;
 		}
+		return false;
 	}
 
 	public void reloadDecks(ArrayList<String> selectedDecks, boolean shuffled) {
+		List<Question> newQuestionList1 = new ArrayList<>();
+		List<Question> newQuestionList2 = new ArrayList<>();
+		List<Question> newQuestionList3 = new ArrayList<>();
 		List<Question> newQuestionList = new ArrayList<>();
 
+
+
 		for(String deckString : selectedDecks) {
-			newQuestionList.addAll(db.questionDao().getQuestionsOfType(deckString));
+
+			newQuestionList1.addAll(db.questionDao().getLevel1QuestionsOfType(deckString));
 		}
 
-		if(shuffled) {
-			Collections.shuffle(newQuestionList);
-		} else {
-			Collections.sort(newQuestionList);
+		for(String deckString : selectedDecks) {
+
+			newQuestionList2.addAll(db.questionDao().getLevel2QuestionsOfType(deckString));
 		}
+
+		for(String deckString : selectedDecks) {
+
+			newQuestionList3.addAll(db.questionDao().getLevel3QuestionsOfType(deckString));
+		}
+
+
+		if(shuffled) {
+			Collections.shuffle(newQuestionList1);
+			Collections.shuffle(newQuestionList2);
+			Collections.shuffle(newQuestionList3);
+		} else {
+			Collections.sort(newQuestionList1);
+			Collections.sort(newQuestionList2);
+			Collections.sort(newQuestionList3);
+		}
+
+		newQuestionList.addAll(newQuestionList1);
+		newQuestionList.addAll(newQuestionList2);
+		newQuestionList.addAll(newQuestionList3);
 
 		questionList = newQuestionList;
 		swipeStack.resetStack();

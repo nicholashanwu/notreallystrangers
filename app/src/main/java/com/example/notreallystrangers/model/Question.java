@@ -15,8 +15,11 @@ public class Question implements Parcelable, Comparable<Question> {
 	@ColumnInfo(name = "question_type")
 	private String questionType;
 
+	@ColumnInfo(name = "level")
+	private int level;
+
 	@ColumnInfo(name = "is_wildcard")
-	private String isWildCard; //"true" or "false"
+	private String isWildCard; //"true" or "false" or "final" or "reminder"
 
 	@ColumnInfo(name = "question_body")
 	private String questionBody;
@@ -25,7 +28,8 @@ public class Question implements Parcelable, Comparable<Question> {
 
 	}
 
-	public Question(String questionType, String isWildCard, String questionBody) {
+	public Question(String questionType, int level, String isWildCard, String questionBody) {
+		this.level = level;
 		this.questionType = questionType;
 		this.isWildCard = isWildCard;
 		this.questionBody = questionBody;
@@ -109,5 +113,13 @@ public class Question implements Parcelable, Comparable<Question> {
 	@Override
 	public int compareTo(Question question) {
 		return this.getQuestionId() - question.getQuestionId();
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 }

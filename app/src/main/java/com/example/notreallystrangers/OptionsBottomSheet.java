@@ -4,14 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -20,7 +23,7 @@ import java.util.ArrayList;
 
 public class OptionsBottomSheet extends BottomSheetDialogFragment {
 
-	private Chip chipBase, chipHonestDating, chipRelationship, chipInnerCircle, chipBreakup, chipOwnIt;
+	private Chip chipBase, chipHonestDating, chipRelationship, chipInnerCircle, chipBreakup, chipOwnIt, chipQuarantine;
 	private ChipGroup chipGroup;
 	private CheckBox checkBoxShuffle;
 	private CheckBox checkBoxDarkMode;
@@ -30,6 +33,24 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 	private boolean shuffled = false;
 
 	private boolean darkMode;
+
+
+	// ensure OptionsBottomSheet is fully expanded in horizontal orientation
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
+				FrameLayout bottomSheet = (FrameLayout)
+				dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+				BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+				behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+				behavior.setPeekHeight(0);
+			}
+		});
+	}
 
 	@Nullable
 	@Override
@@ -48,6 +69,7 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 		chipInnerCircle = (Chip) v.findViewById(R.id.chipInnerCircle);
 		chipBreakup = (Chip) v.findViewById(R.id.chipBreakup);
 		chipOwnIt = (Chip) v.findViewById(R.id.chipOwnIt);
+		chipQuarantine = (Chip) v.findViewById(R.id.chipQuarantine);
 
 		shuffled = getArguments().getBoolean("shuffled");
 		selectedDecks = getArguments().getStringArrayList("selectedDecks");
@@ -56,11 +78,12 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 		updateUI();
 
 
+
 		checkBoxShuffle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 				shuffled = !shuffled;
-				Toast.makeText(getContext().getApplicationContext(), "Shuffled = " + shuffled, Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getContext().getApplicationContext(), "Shuffled = " + shuffled, Toast.LENGTH_SHORT).show();
 				updateUI();
 				reloadDecks();
 			}
@@ -79,13 +102,13 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 				darkMode = !darkMode;
 
 				updateUI();
-				reloadDecks();
+//				reloadDecks();
 
 			}
 		});
 
 
-		
+
 
 
 		CompoundButton.OnCheckedChangeListener checkedChangeListener1 = new CompoundButton.OnCheckedChangeListener() {
@@ -121,6 +144,7 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 		chipInnerCircle.setOnCheckedChangeListener(checkedChangeListener1);
 		chipBreakup.setOnCheckedChangeListener(checkedChangeListener1);
 		chipOwnIt.setOnCheckedChangeListener(checkedChangeListener1);
+		chipQuarantine.setOnCheckedChangeListener(checkedChangeListener1);
 
 		return v;
 	}

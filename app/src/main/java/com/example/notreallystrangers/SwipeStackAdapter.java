@@ -48,14 +48,10 @@ public class SwipeStackAdapter extends BaseAdapter {
 
 
 
-//		convertView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-//		convertView = getLayoutInflater().inflate(R.layout.card, parent, false);
 		TextView cardBodyTextView = (TextView) convertView.findViewById(R.id.cardBodyTextView);
 		cardBodyTextView.setText(mData.get(position).getQuestionBody().toUpperCase());
 
-		cardBodyTextView.setText(mData.get(position).getQuestionId() + " - " + mData.get(position).getQuestionBody().toUpperCase());
-
-//		cardBodyTextView.setTypeface(getResources().getFont().R.font.helvetica_bold);
+		cardBodyTextView.setText(mData.get(position).getQuestionId() + " - " + mData.get(position).getLevel() + " - " + mData.get(position).getQuestionBody().toUpperCase());
 
 		TextView cardExpansionTextView = (TextView) convertView.findViewById(R.id.cardExpansionTextView);
 
@@ -64,10 +60,6 @@ public class SwipeStackAdapter extends BaseAdapter {
 		} else {
 			cardExpansionTextView.setVisibility(View.INVISIBLE);
 		}
-
-
-
-//		mData.pop();
 
 
 

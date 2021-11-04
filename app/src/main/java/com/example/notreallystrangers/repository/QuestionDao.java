@@ -13,8 +13,14 @@ public interface QuestionDao {
 	@Query("SELECT * FROM question")
 	List<Question> getAllQuestions();
 
-	@Query("SELECT * FROM question WHERE question_type = :type")
-	List<Question> getQuestionsOfType(String type);
+	@Query("SELECT * FROM question WHERE question_type = :type AND level = 1")
+	List<Question> getLevel1QuestionsOfType(String type);
+
+	@Query("SELECT * FROM question WHERE question_type = :type AND level = 2")
+	List<Question> getLevel2QuestionsOfType(String type);
+
+	@Query("SELECT * FROM question WHERE question_type = :type AND level = 3")
+	List<Question> getLevel3QuestionsOfType(String type);
 
 	@Insert
 	public void insertQuestions(Question... questions);
@@ -24,4 +30,12 @@ public interface QuestionDao {
 
 	@Query("SELECT * FROM question WHERE is_wildcard = 'true'")
 	List<Question> getWildcards();
+
+	// when someone clicks on base deck and honest dating
+
+	// create 3 separate decks
+	// need to get level 1 from both decks, then shuffle them
+	// need to get level 2 from both decks, then shuffle them
+	// need to get level 3 from both decks, then shuffle them
+	// merge them together
 }
