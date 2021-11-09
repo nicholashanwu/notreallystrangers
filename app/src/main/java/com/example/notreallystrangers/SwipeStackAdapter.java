@@ -40,18 +40,25 @@ public class SwipeStackAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 
-		if(mData.get(position).getIsWildCard().equals("true")) {
+		if(mData.get(position).getIsWildCard().equals("true") || mData.get(position).getIsWildCard().equals("final")) {
 			convertView = LayoutInflater.from(context).inflate(R.layout.wildcard, parent,false);
 		} else {
 			convertView = LayoutInflater.from(context).inflate(R.layout.card, parent,false);
 		}
 
-
-
+		TextView cardWildcardTextView = (TextView) convertView.findViewById(R.id.cardWildcardTextView);
+		TextView cardLevelTextView = (TextView) convertView.findViewById(R.id.cardLevelTextView);
 		TextView cardBodyTextView = (TextView) convertView.findViewById(R.id.cardBodyTextView);
-		cardBodyTextView.setText(mData.get(position).getQuestionBody().toUpperCase());
+		TextView cardQuestionNumberTextView = (TextView) convertView.findViewById(R.id.cardQuestionNumberTextView);
 
-		cardBodyTextView.setText(mData.get(position).getQuestionId() + " - " + mData.get(position).getLevel() + " - " + mData.get(position).getQuestionBody().toUpperCase());
+		cardLevelTextView.setText("LEVEL " + mData.get(position).getLevel());
+		cardBodyTextView.setText(mData.get(position).getQuestionBody().toUpperCase());
+		cardQuestionNumberTextView.setText(String.valueOf(mData.get(position).getQuestionId()));
+
+		if(mData.get(position).getIsWildCard().equals("final")) {
+			cardWildcardTextView.setText("FINAL CARD");
+		}
+
 
 		TextView cardExpansionTextView = (TextView) convertView.findViewById(R.id.cardExpansionTextView);
 

@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/introductionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="64dp"
+        android:fontFamily="@font/helvetica_family"
+        android:lineSpacingExtra="8sp"
+        android:text="WELCOME TO NOT REALLY STRANGERS"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:theme="@style/Theme.NotReallyStrangers"
+        android:typeface="sans"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <FrameLayout
         android:id="@+id/card"
         android:layout_width="match_parent"
@@ -38,13 +61,43 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:stack_rotation="6"
                 app:stack_size="5"
-                app:stack_spacing="4dp" >
+                app:stack_spacing="4dp">
 
             </link.fls.swipestack.SwipeStack>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/progressTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/helvetica_family"
+        android:textColor="@color/subtext"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rcAnimationEnable="true"
+        app:rcAnimationSpeedScale="5.0"
+        app:rcBackgroundColor="@android:color/transparent"
+        app:rcMax="100"
+        app:rcProgress="1"
+        app:rcProgressColor="@color/subtext"
+        app:rcRadius="0dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button"
@@ -64,14 +117,5 @@
         app:srcCompat="@drawable/ic_round_tune_24"
         app:tint="@color/red" />
 
-    <TextView
-        android:id="@+id/exampleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

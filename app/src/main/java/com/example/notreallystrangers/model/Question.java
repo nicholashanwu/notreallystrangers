@@ -109,12 +109,6 @@ public class Question implements Parcelable, Comparable<Question> {
 		this.questionBody = questionBody;
 	}
 
-
-	@Override
-	public int compareTo(Question question) {
-		return this.getQuestionId() - question.getQuestionId();
-	}
-
 	public int getLevel() {
 		return level;
 	}
@@ -122,4 +116,12 @@ public class Question implements Parcelable, Comparable<Question> {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+
+
+	@Override
+	public int compareTo(Question question) {
+		return this.getQuestionId() - question.getQuestionId();
+	}
+
+
 }

@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -154,7 +156,16 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 
 		chipGroup.setSelectionRequired(true);
 
-		checkBoxShuffle.setEnabled(!selectedDecks.isEmpty());
+//		checkBoxShuffle.setEnabled(!selectedDecks.isEmpty());
+		if(!selectedDecks.isEmpty()) {
+			if(checkBoxShuffle.getVisibility() == View.INVISIBLE) {
+				YoYo.with(Techniques.FadeIn).duration(500).playOn(checkBoxShuffle);
+			}
+			checkBoxShuffle.setVisibility(View.VISIBLE);
+
+		} else {
+			checkBoxShuffle.setVisibility(View.INVISIBLE);
+		}
 
 		checkBoxShuffle.setChecked(shuffled);
 

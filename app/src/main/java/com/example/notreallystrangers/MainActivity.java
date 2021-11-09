@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentResultListener;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.notreallystrangers.model.Question;
 import com.example.notreallystrangers.repository.AppDatabase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,8 +28,12 @@ public class MainActivity extends AppCompatActivity {
 	private AppDatabase db;
 
 	private SwipeStack swipeStack;
-	private TextView exampleTextView;
+	private TextView messageTextView;
+	private TextView progressTextView;
 	private FloatingActionButton mButton;
+	private com.akexorcist.roundcornerprogressbar.common.AnimatedRoundCornerProgressBar progressBar;
+	private int progress = 0;
+	private int totalProgress;
 
 	private ArrayList<String> selectedDecks;
 
@@ -37,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
 	private boolean darkMode;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		swipeStack = (SwipeStack) findViewById(R.id.bodyTextView);
-		exampleTextView = (TextView) findViewById(R.id.exampleTextView);
+		progressTextView = (TextView) findViewById(R.id.progressTextView);
 		mButton = (FloatingActionButton) findViewById(R.id.button);
+		progressBar = (com.akexorcist.roundcornerprogressbar.common.AnimatedRoundCornerProgressBar) findViewById(R.id.progressBar);
 
 		db = AppDatabase.getInstance(this);
 
@@ -54,32 +60,38 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onViewSwipedToLeft(int position) {											//position of view that was swiped away. position + 1 should be current view
 				swipeStack.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+				progress++;
+				progressBar.setProgress(progress);
+				progressTextView.setText(totalProgress - progress + " CARDS LEFT");
 			}
 
 			@Override
 			public void onViewSwipedToRight(int position) {
 				swipeStack.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+				progress++;
+				progressBar.setProgress(progress);
+				progressTextView.setText(totalProgress - progress + " CARDS LEFT");
 			}
 
 			@Override
 			public void onStackEmpty() {
 				swipeStack.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+				//show animation
+				//show final question
+
+				finishGame();
+
+
 			}
 		});
-
-//		questionList = AppDatabase.getInstance(this).questionDao().getQuestionsOfType("base pack");
 
 		questionList = new ArrayList<>();
 
 		selectedDecks = new ArrayList<>();
 
-		getNightMode();
-
-		exampleTextView.setText(String.valueOf(questionList.size()));
 
 
-
-
+		darkMode = getNightMode();
 
 		mButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -92,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
 				bundle.putBoolean("shuffled", shuffled);
 				bundle.putBoolean("darkMode", getNightMode());
 
-
-
 				bottomSheet.setArguments(bundle);
 				bottomSheet.show(getSupportFragmentManager(), "bottomSheet");
 			}
@@ -105,34 +115,44 @@ public class MainActivity extends AppCompatActivity {
 			questionList = savedInstanceState.getParcelableArrayList("questionList");
 			shuffled = savedInstanceState.getBoolean("shuffled");
 			darkMode = savedInstanceState.getBoolean("darkMode");
-			swipeStack.setAdapter(new SwipeStackAdapter(questionList, this));
+			progress = savedInstanceState.getInt("progress");
+			totalProgress = savedInstanceState.getInt("totalProgress");
 
-			System.out.println("selectedDecks " + selectedDecks.toString());
-			System.out.println("shuffled " + shuffled);
-			System.out.println("darkMode " + darkMode);
+
+
+			progressBar.setProgress(progress);
+			progressBar.setMax(totalProgress);
+
+			if(!questionList.isEmpty()) {
+				progressTextView.setText(totalProgress - progress + " CARDS LEFT");
+			}
+
+//			System.out.println("selectedDecks " + selectedDecks.toString());
+//			System.out.println("shuffled " + shuffled);
+//			System.out.println("darkMode " + darkMode);
 		}
 
 		getSupportFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
 			@Override
 			public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-				// We use a String here, but any type that can be put in a Bundle is supported
 				ArrayList<String> result = bundle.getStringArrayList("bundleKey");
 				shuffled = bundle.getBoolean("shuffled");
-				// Do something with the result
 
-//				Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_SHORT).show();
 				reloadDecks(result, shuffled);
 			}
 		});
 	}
 
-	//base
-	//honest dating
-	//inner circle
-	//relationship
-	//breakup
-	//own it
+	public void finishGame() {
+		shuffled = false;
+		progress = 0;
+		progressBar.setProgress(0);
+		questionList = new ArrayList<>();
+		selectedDecks = new ArrayList<>();
+		YoYo.with(Techniques.SlideOutDown).duration(1000).playOn(progressBar);
+		YoYo.with(Techniques.SlideOutDown).duration(1000).playOn(progressTextView);
 
+	}
 
 
 	public boolean getNightMode() {
@@ -146,29 +166,26 @@ public class MainActivity extends AppCompatActivity {
 		return false;
 	}
 
+
+
 	public void reloadDecks(ArrayList<String> selectedDecks, boolean shuffled) {
+
 		List<Question> newQuestionList1 = new ArrayList<>();
 		List<Question> newQuestionList2 = new ArrayList<>();
 		List<Question> newQuestionList3 = new ArrayList<>();
 		List<Question> newQuestionList = new ArrayList<>();
 
-
-
 		for(String deckString : selectedDecks) {
-
 			newQuestionList1.addAll(db.questionDao().getLevel1QuestionsOfType(deckString));
 		}
 
 		for(String deckString : selectedDecks) {
-
 			newQuestionList2.addAll(db.questionDao().getLevel2QuestionsOfType(deckString));
 		}
 
 		for(String deckString : selectedDecks) {
-
 			newQuestionList3.addAll(db.questionDao().getLevel3QuestionsOfType(deckString));
 		}
-
 
 		if(shuffled) {
 			Collections.shuffle(newQuestionList1);
@@ -184,12 +201,27 @@ public class MainActivity extends AppCompatActivity {
 		newQuestionList.addAll(newQuestionList2);
 		newQuestionList.addAll(newQuestionList3);
 
+
+		for(String deckString : selectedDecks) {		// final questions
+			newQuestionList.addAll(db.questionDao().getFinalQuestionsOfType(deckString));
+		}
+
 		questionList = newQuestionList;
 		swipeStack.resetStack();
 		swipeStack.setAdapter(new SwipeStackAdapter(newQuestionList, this));
 
 		this.selectedDecks = selectedDecks;
 
+		totalProgress = newQuestionList.size();
+		progress = 0;
+
+		progressBar.setMax(totalProgress);
+		progressBar.setProgress(progress);
+
+		progressTextView.setText(totalProgress + " CARDS LEFT");
+
+		YoYo.with(Techniques.SlideInUp).duration(1000).playOn(progressTextView);
+		YoYo.with(Techniques.SlideInUp).duration(1000).playOn(progressBar);
 	}
 
 	@Override
@@ -200,6 +232,8 @@ public class MainActivity extends AppCompatActivity {
 		outState.putStringArrayList("selectedDecks", selectedDecks);
 		outState.putBoolean("darkMode", darkMode);
 		outState.putBoolean("shuffled", shuffled);
+		outState.putInt("progress", progress);
+		outState.putInt("totalProgress", totalProgress);
 
 	}
 
