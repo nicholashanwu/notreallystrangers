@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">NotReallyStrangers</string>
     <string name="options">Options</string>
+    <string name="info">App written by Nicholas Wu\nOriginal Game by We\'re Not Really Strangers</string>
+    <string name="how_to_play">Best played with 2 players and with pen and paper on hand.\nGet to know your friend, partner, or yourself on a deeper level.\nSelect just the base deck or from a selection of expansion decks to explore specific topics.\nPlayers alternate turns, reading out the cards to the other person.\nWildcards should not be read out unless both players are involved.\nPlay until the end to get a special final card!</string>
 </resources>

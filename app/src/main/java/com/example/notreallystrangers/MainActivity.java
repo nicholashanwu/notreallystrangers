@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
 	private SwipeStack swipeStack;
 	private TextView messageTextView;
 	private TextView progressTextView;
-	private FloatingActionButton mButton;
+	private FloatingActionButton optionButton;
+	private FloatingActionButton infoButton;
 	private com.akexorcist.roundcornerprogressbar.common.AnimatedRoundCornerProgressBar progressBar;
 	private int progress = 0;
 	private int totalProgress;
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
 		swipeStack = (SwipeStack) findViewById(R.id.bodyTextView);
 		progressTextView = (TextView) findViewById(R.id.progressTextView);
-		mButton = (FloatingActionButton) findViewById(R.id.button);
+		optionButton = (FloatingActionButton) findViewById(R.id.button);
+		infoButton = (FloatingActionButton) findViewById(R.id.infoButton);
 		progressBar = (com.akexorcist.roundcornerprogressbar.common.AnimatedRoundCornerProgressBar) findViewById(R.id.progressBar);
 
 		db = AppDatabase.getInstance(this);
@@ -93,19 +95,35 @@ public class MainActivity extends AppCompatActivity {
 
 		darkMode = getNightMode();
 
-		mButton.setOnClickListener(new View.OnClickListener() {
+		optionButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 
-				OptionsBottomSheet bottomSheet = new OptionsBottomSheet();
+				OptionsBottomSheet optionsBottomSheet = new OptionsBottomSheet();
 
 				Bundle bundle = new Bundle();
 				bundle.putStringArrayList("selectedDecks", selectedDecks);
 				bundle.putBoolean("shuffled", shuffled);
 				bundle.putBoolean("darkMode", getNightMode());
 
-				bottomSheet.setArguments(bundle);
-				bottomSheet.show(getSupportFragmentManager(), "bottomSheet");
+				optionsBottomSheet.setArguments(bundle);
+				optionsBottomSheet.show(getSupportFragmentManager(), "bottomSheet");
+			}
+		});
+
+		infoButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
+				InfoBottomSheet infoBottomSheet = new InfoBottomSheet();
+
+				Bundle bundle = new Bundle();
+				bundle.putStringArrayList("selectedDecks", selectedDecks);
+				bundle.putBoolean("shuffled", shuffled);
+				bundle.putBoolean("darkMode", getNightMode());
+
+				infoBottomSheet.setArguments(bundle);
+				infoBottomSheet.show(getSupportFragmentManager(), "bottomSheet");
 			}
 		});
 
@@ -118,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 			progress = savedInstanceState.getInt("progress");
 			totalProgress = savedInstanceState.getInt("totalProgress");
 
-
+			swipeStack.setAdapter(new SwipeStackAdapter(questionList, this));
 
 			progressBar.setProgress(progress);
 			progressBar.setMax(totalProgress);
