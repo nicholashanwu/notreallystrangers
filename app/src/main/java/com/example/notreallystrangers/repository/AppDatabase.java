@@ -26,7 +26,7 @@ public abstract class AppDatabase extends RoomDatabase {
 					try {
 
 
-						/*INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+						INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
 								AppDatabase.class,
 								"database_name").
 								fallbackToDestructiveMigration().
@@ -35,17 +35,18 @@ public abstract class AppDatabase extends RoomDatabase {
 
 						prepopulateData(INSTANCE);
 
-						System.out.println("prepopulated");*/
+						System.out.println("prepopulated");
 
 
-						INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-								AppDatabase.class,
-								"database_name").
-								fallbackToDestructiveMigration().
-								createFromAsset("database_name").
-								allowMainThreadQueries().
-								build();
-						System.out.println("created from asset");
+//						INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+//								AppDatabase.class,
+//								"database_name").
+//								fallbackToDestructiveMigration().
+//								createFromAsset("database_name").
+//								allowMainThreadQueries().
+//								build();
+//
+//						System.out.println("created from asset");
 
 					} catch (Exception e) {
 

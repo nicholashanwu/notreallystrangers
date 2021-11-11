@@ -1,4 +1,4 @@
-package com.example.notreallystrangers;
+package com.example.notreallystrangers.repository;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.notreallystrangers.R;
 import com.example.notreallystrangers.model.Question;
 
 import java.util.List;

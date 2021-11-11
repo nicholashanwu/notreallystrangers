@@ -3,6 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/drawable-night/rounded_sheet.xml" value="0.34791666666666665" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/drawable-v24/dark_mode_icon_state.xml" value="0.16018518518518518" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/drawable/rounded_bottom_sheet.xml" value="0.34791666666666665" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/drawable/rounded_sheet.xml" value="0.34791666666666665" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/layout-land-night/activity_main.xml" value="0.2875" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/layout-land/activity_main.xml" value="0.2875" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/layout-night/activity_main.xml" value="0.33177083333333335" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/layout-night/bottom_sheet_info_layout.xml" value="0.1" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/layout-night/bottom_sheet_layout.xml" value="0.5" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/layout/activity_main.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/layout/bottom_sheet_info_layout.xml" value="0.33177083333333335" />
+        <entry key="..\:/Users/Nicholas/AndroidStudioProjects/notreallystrangers/app/src/main/res/layout/bottom_sheet_layout.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/nic27/AndroidStudioProjects/NotReallyStrangers/app/src/main/res/drawable-v24/dark_mode_icon_state.xml" value="0.4140625" />
         <entry key="..\:/Users/nic27/AndroidStudioProjects/NotReallyStrangers/app/src/main/res/drawable-v24/dark_mode_state.xml" value="0.5111111111111111" />
         <entry key="..\:/Users/nic27/AndroidStudioProjects/NotReallyStrangers/app/src/main/res/drawable/ic_baseline_brightness_5_24.xml" value="0.2984375" />

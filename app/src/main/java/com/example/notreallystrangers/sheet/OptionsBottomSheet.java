@@ -1,5 +1,6 @@
-package com.example.notreallystrangers;
+package com.example.notreallystrangers.sheet;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,11 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.DialogFragment;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.notreallystrangers.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -33,9 +36,7 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 	private ArrayList<String> selectedDecks;
 
 	private boolean shuffled = false;
-
 	private boolean darkMode;
-
 
 	// ensure OptionsBottomSheet is fully expanded in horizontal orientation
 	@Override
@@ -45,8 +46,8 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 			@Override
 			public void onGlobalLayout() {
 				BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
-				FrameLayout bottomSheet = (FrameLayout)
-				dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+				FrameLayout bottomSheet = (FrameLayout) dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+				bottomSheet.setBackgroundColor(android.R.color.transparent);
 				BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
 				behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 				behavior.setPeekHeight(0);
@@ -54,11 +55,22 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 		});
 	}
 
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+//		setStyle(DialogFragment.STYLE_NO_FRAME,0);
+
+	}
+
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.bottom_sheet_layout, container, false);
+//		getDialog().setCanceledOnTouchOutside(true);
+
+//		setStyle(STYLE_NORMAL, R.style.BottomSheetDialogStyle);
+
 
 		checkBoxShuffle = (CheckBox) v.findViewById(R.id.checkBoxShuffle);
 		checkBoxDarkMode = (CheckBox) v.findViewById(R.id.checkBoxDarkMode);
@@ -104,14 +116,8 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 				darkMode = !darkMode;
 
 				updateUI();
-//				reloadDecks();
-
 			}
 		});
-
-
-
-
 
 		CompoundButton.OnCheckedChangeListener checkedChangeListener1 = new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -156,7 +162,6 @@ public class OptionsBottomSheet extends BottomSheetDialogFragment {
 
 		chipGroup.setSelectionRequired(true);
 
-//		checkBoxShuffle.setEnabled(!selectedDecks.isEmpty());
 		if(!selectedDecks.isEmpty()) {
 			if(checkBoxShuffle.getVisibility() == View.INVISIBLE) {
 				YoYo.with(Techniques.FadeIn).duration(500).playOn(checkBoxShuffle);

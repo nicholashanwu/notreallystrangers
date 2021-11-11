@@ -1,4 +1,4 @@
-package com.example.notreallystrangers;
+package com.example.notreallystrangers.sheet;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.notreallystrangers.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -41,8 +42,8 @@ public class InfoBottomSheet extends BottomSheetDialogFragment {
 			@Override
 			public void onGlobalLayout() {
 				BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
-				FrameLayout bottomSheet = (FrameLayout)
-				dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+				FrameLayout bottomSheet = (FrameLayout) dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+				bottomSheet.setBackgroundColor(android.R.color.transparent);
 				BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
 				behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 				behavior.setPeekHeight(0);

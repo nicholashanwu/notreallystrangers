@@ -29,6 +29,73 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/infoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:borderWidth="0dp"
+        android:background="@null"
+        android:clickable="true"
+        android:elevation="0dp"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@null"
+        app:srcCompat="@drawable/ic_outline_info_24"
+        app:tint="@color/red" />
+
+    <TextView
+        android:id="@+id/progressTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/helvetica_family"
+        android:textColor="@color/subtext"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@null"
+        android:clickable="true"
+        android:elevation="0dp"
+        app:borderWidth="0dp"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@null"
+        app:srcCompat="@drawable/ic_round_tune_24"
+        app:tint="@color/red" />
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rcAnimationEnable="true"
+        app:rcAnimationSpeedScale="5.0"
+        app:rcBackgroundColor="@android:color/transparent"
+        app:rcMax="100"
+        app:rcProgress="1"
+        app:rcProgressColor="@color/subtext"
+        app:rcRadius="0dp" />
+
     <FrameLayout
         android:id="@+id/card"
         android:layout_width="match_parent"
@@ -53,7 +120,7 @@
                 android:paddingTop="32dp"
                 android:paddingRight="32dp"
                 android:paddingBottom="128dp"
-                app:animation_duration="750"
+                app:animation_duration="500"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio=""
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,72 +135,6 @@
 
 
     </FrameLayout>
-
-    <TextView
-        android:id="@+id/progressTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/helvetica_family"
-        android:textColor="@color/subtext"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:typeface="sans"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="0dp"
-        android:layout_height="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rcAnimationEnable="true"
-        app:rcAnimationSpeedScale="5.0"
-        app:rcBackgroundColor="@android:color/transparent"
-        app:rcMax="100"
-        app:rcProgress="1"
-        app:rcProgressColor="@color/subtext"
-        app:rcRadius="0dp" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@null"
-        android:clickable="true"
-        android:elevation="0dp"
-        android:outlineProvider="none"
-        app:backgroundTint="@android:color/transparent"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/card"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@null"
-        app:srcCompat="@drawable/ic_round_tune_24"
-        app:tint="@color/red" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/infoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@null"
-        android:clickable="true"
-        android:elevation="0dp"
-        android:outlineProvider="none"
-        app:backgroundTint="@android:color/transparent"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/card"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@null"
-        app:srcCompat="@drawable/ic_outline_info_24"
-        app:tint="@color/red" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
